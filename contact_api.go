@@ -71,7 +71,7 @@ func (api ContactAPI) create(contact *Contact) (Contact, error) {
 }
 
 func (api ContactAPI) attachContact(contact *Contact, company *Company) (Company, error) {
-	requestContact := api.buildRequestContactAttachment(contact)
+	requestContact := api.buildRequestContactAttachment(company)
 	return unmarshalToCompany(api.httpClient.Post(fmt.Sprintf("/contacts/%s/companies", contact.ID), &requestContact))
 }
 
