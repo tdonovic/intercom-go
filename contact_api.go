@@ -17,6 +17,8 @@ type ContactRepository interface {
 	update(*Contact) (Contact, error)
 	convert(*Contact, *User) (User, error)
 	delete(id string) (Contact, error)
+	attachContact(*Contact, *Company) (Company, error)
+	detachContact(*Contact, *Company) (Company, error)
 }
 
 type requestContactAttachemntBody struct {
@@ -68,12 +70,12 @@ func (api ContactAPI) create(contact *Contact) (Contact, error) {
 	return unmarshalToContact(api.httpClient.Post("/contacts", &requestContact))
 }
 
-func (api ContactAPI) attachContact(contact *Contact, company *Company) (Contact, error) {
+func (api ContactAPI) attachContact(contact *Contact, company *Company) (Company, error) {
 	requestContact := api.buildRequestContactAttachment(contact)
 	return unmarshalToCompany(api.httpClient.Post(fmt.Sprintf("/contacts/%s/companies", contact.ID), &requestContact))
 }
 
-func (api ContactAPI) detachContact(contact *Contact, company *Company) (Contact, error) {
+func (api ContactAPI) detachContact(contact *Contact, company *Company) (Company, error) {
 	return unmarshalToCompany(api.httpClient.Post(fmt.Sprintf("/contacts/%s/companies/%s", contact.ID, company.ID), nil))
 }
 
