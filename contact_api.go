@@ -19,6 +19,10 @@ type ContactRepository interface {
 	delete(id string) (Contact, error)
 }
 
+type requestContactAttachemntBody struct {
+	ID string `json:"id,omitempty"`,
+}
+
 // ContactAPI implements ContactRepository
 type ContactAPI struct {
 	httpClient interfaces.HTTPClient
@@ -129,8 +133,8 @@ func (api ContactAPI) buildRequestContact(contact *Contact) requestUser {
 	}
 }
 
-func (api ContactAPI) buildRequestContactAttachment(company *Company) requestBody {
-	return requestBody{
+func (api ContactAPI) buildRequestContactAttachment(company *Company) requestContactAttachemntBody {
+	return requestContactAttachemntBody{
 		ID: company.ID,
 	}
 }
